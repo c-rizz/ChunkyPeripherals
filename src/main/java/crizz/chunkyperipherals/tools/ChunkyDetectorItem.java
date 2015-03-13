@@ -37,14 +37,14 @@ public class ChunkyDetectorItem extends Item
 	public void loadRecipe()
 	{
 		
-		GameRegistry.addRecipe(new ItemStack(ChunkyPeripherals.chunkyModuleItem), new Object[]
+		GameRegistry.addRecipe(new ItemStack(ChunkyPeripherals.chunkyDetectorItem), new Object[]
 	            {
 	            	" G ",
-	            	"SSS",
-	            	"SRS",
+	            	"OGO",
+	            	"ORO",
 	            	'G', new ItemStack(Items.gold_ingot),
 	            	'R', new ItemStack(Items.redstone),
-	            	'S', Blocks.stone
+	            	'O', Blocks.obsidian
 	            });
 	}
 	

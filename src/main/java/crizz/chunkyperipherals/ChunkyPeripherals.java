@@ -169,11 +169,11 @@ public class ChunkyPeripherals
                 if(useChunkLoaderPeripheralBlock)
                 {
                 	chunkLoaderPeripheralBlock = new ChunkLoaderPeripheralBlock();
+	                GameRegistry.registerBlock(chunkLoaderPeripheralBlock, ChunkLoaderPeripheralBlock.unlocalizedName);
                 	chunkLoaderPeripheralBlock.loadRecipe();
 	                if(useAlsoAlternativeRecipes)
 	                	chunkLoaderPeripheralBlock.loadAlternativeRecipe();
 	                infoLog("registering chunkLoaderPeripheralBlock"); 
-	                GameRegistry.registerBlock(chunkLoaderPeripheralBlock, ChunkLoaderPeripheralBlock.unlocalizedName);
                 }
                 
                 if(useChunkyDetector)
