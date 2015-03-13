@@ -190,9 +190,9 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 		@Override
 		public List<ChunkCoordIntPair> getChunksToLoad(int xCoord, int zCoord)
 		{
-			ChunkyPeripherals.infoLog("getChunksToLoad("+xCoord+","+zCoord+")");
+		//	ChunkyPeripherals.infoLog("getChunksToLoad("+xCoord+","+zCoord+")");
 			List<ChunkCoordIntPair> ret = new ArrayList<ChunkCoordIntPair>(   ((int)(west+east)/16+1)*((int)(south+north)/16+1)   );
-			ChunkyPeripherals.infoLog("  north="+north+"  east="+east+"  south="+south+"west="+west);
+		//	ChunkyPeripherals.infoLog("  north="+north+"  east="+east+"  south="+south+"west="+west);
 			
 			
 			//bottom left vertex
@@ -202,7 +202,7 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 			int zf = Coord2D.getChunkFromBlock_single(zCoord+(int)(south+1))*16+16;
 			int xf = Coord2D.getChunkFromBlock_single(xCoord+(int)(east+1))*16+16;
 			
-			ChunkyPeripherals.infoLog("x0="+x0+"  z0="+z0+"  xf="+xf+"  zf="+zf);
+		//	ChunkyPeripherals.infoLog("x0="+x0+"  z0="+z0+"  xf="+xf+"  zf="+zf);
 
 			RectangleInt rect = new RectangleInt(zCoord - (int)(north+1), (int) (xCoord + (east+1)), (int) (zCoord + (south+1)), (int) (xCoord - (west+1)));
 			ChunkyPeripherals.infoLog(rect.toString());
@@ -210,15 +210,15 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 			{
 				for(int z = z0; z<=zf; z+=16)
 				{
-					ChunkyPeripherals.infoLog("x="+x+"  z="+z);
+				//	ChunkyPeripherals.infoLog("x="+x+"  z="+z);
 					if(rect.intersectsRect(z, x+15, z+15, x))
 					{
-						ChunkyPeripherals.infoLog("adding");
+					//	ChunkyPeripherals.infoLog("adding");
 						ret.add(new ChunkCoordIntPair(x/16,z/16));
 					}
 					else
 					{
-						ChunkyPeripherals.infoLog("not adding");
+					//	ChunkyPeripherals.infoLog("not adding");
 					}
 				}
 			}
