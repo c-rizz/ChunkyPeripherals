@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
@@ -113,7 +114,7 @@ public class ChunkyPeripherals
         	
         	chunkyModuleUpgradeID 			= config.get(Configuration.CATEGORY_GENERAL, "chunkyModuleUpgradeID", 260).getInt();//default Id 260
         	minyChunkyModuleUpgradeID 		= config.get(Configuration.CATEGORY_GENERAL, "minyChunkyModuleUpgradeID", 261).getInt();//default Id 261
-        	maxChunkLoadingRadius			= config.get(Configuration.CATEGORY_GENERAL, "maxChunkLoadingRadius", 5*16).getInt();
+        	maxChunkLoadingRadius			= config.get(Configuration.CATEGORY_GENERAL, "maxChunkLoadingRadiusInBlocks", 80).getInt();
         	
         	Side side = FMLCommonHandler.instance().getEffectiveSide();
         	if(side==Side.CLIENT)
@@ -127,6 +128,8 @@ public class ChunkyPeripherals
        // 	CCCreativeTab = findCCTab();
         	
         	TicketManager.initialize();
+        	int roudedMaxChunkLoadingRadius = maxChunkLoadingRadius % 16 == 0? maxChunkLoadingRadius : (maxChunkLoadingRadius + 16  - (maxChunkLoadingRadius%16));
+        	ForgeChunkManager.addConfigProperty(instance, "maximumChunksPerTicket", Integer.toString(roudedMaxChunkLoadingRadius*roudedMaxChunkLoadingRadius*4/256), Property.Type.INTEGER);
         }
         
         
