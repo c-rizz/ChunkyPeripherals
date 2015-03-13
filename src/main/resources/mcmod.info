@@ -3,7 +3,7 @@
   "modid": "chunkyperipherals",
   "name": "Chunky Peripherals",
   "description": "Computercraft needed chunkloaders!",
-  "version": "1.1.0.10",
+  "version": "1.1.1.0",
   "logoFile": "logo.png",
   "mcversion": "${mcversion}",
   "url": "",

@@ -42,7 +42,7 @@ import crizz.chunkyperipherals.utils.TicketManager;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 
-@Mod(modid=ChunkyPeripherals.MODID, name="Chunky Peripherals", version="1.1.0.10",dependencies="required-after:ComputerCraft")
+@Mod(modid=ChunkyPeripherals.MODID, name="Chunky Peripherals", version="1.1.1.0",dependencies="required-after:ComputerCraft")
 public class ChunkyPeripherals
 {
 		public static final String MODID = "chunkyperipherals";
