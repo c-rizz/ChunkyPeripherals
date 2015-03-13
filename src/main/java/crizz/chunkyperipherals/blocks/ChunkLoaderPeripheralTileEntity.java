@@ -202,7 +202,7 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 			int zf = Coord2D.getChunkFromBlock_single(zCoord+(int)(south+1))*16+16;
 			int xf = Coord2D.getChunkFromBlock_single(xCoord+(int)(east+1))*16+16;
 			
-		//	ChunkyPeripherals.infoLog("x0="+x0+"  z0="+z0+"  xf="+xf+"  zf="+zf);
+			ChunkyPeripherals.infoLog("x0="+x0+"  z0="+z0+"  xf="+xf+"  zf="+zf);
 
 			RectangleInt rect = new RectangleInt(zCoord - (int)(north+1), (int) (xCoord + (east+1)), (int) (zCoord + (south+1)), (int) (xCoord - (west+1)));
 			ChunkyPeripherals.infoLog(rect.toString());
@@ -210,15 +210,15 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 			{
 				for(int z = z0; z<=zf; z+=16)
 				{
-				//	ChunkyPeripherals.infoLog("x="+x+"  z="+z);
+					ChunkyPeripherals.infoLog("x="+x+"  z="+z);
 					if(rect.intersectsRect(z, x+15, z+15, x))
 					{
-					//	ChunkyPeripherals.infoLog("adding");
+						ChunkyPeripherals.infoLog("adding");
 						ret.add(new ChunkCoordIntPair(x/16,z/16));
 					}
 					else
 					{
-					//	ChunkyPeripherals.infoLog("not adding");
+						ChunkyPeripherals.infoLog("not adding");
 					}
 				}
 			}
@@ -374,7 +374,7 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 	{
 		if(method==0)
 		{
-			return shape.getDescription();
+			return shape==null? null : shape.getDescription();
 		}
 		else if(method==1)//setShapeCircle
 		{
@@ -409,6 +409,10 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 				sideLength++;
 			if(sideLength%2==1)
 				sideLength++;
+			
+			if(sideLength/2>ChunkyPeripherals.maxChunkLoadingRadius)
+				throw new LuaException("Error: side too big, max="+ChunkyPeripherals.maxChunkLoadingRadius*2);
+			
 			shape = new ChunksShapeRectangle(sideLength);
 			loadChunks();
 		}
@@ -425,6 +429,10 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 					sideLength++;
 				if(sideLength%2==1)
 					sideLength++;
+				
+				if(sideLength/2>ChunkyPeripherals.maxChunkLoadingRadius)
+					throw new LuaException("Error: side too big, max="+ChunkyPeripherals.maxChunkLoadingRadius*2);
+				
 				shape = new ChunksShapeRectangle(sideLength);
 				loadChunks();
 			}
@@ -446,6 +454,10 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 					sideXLength++;
 				if(sideYLength%2==1)
 					sideYLength++;
+				
+				int maxChunkLoadingArea = ChunkyPeripherals.maxChunkLoadingRadius*ChunkyPeripherals.maxChunkLoadingRadius*4;
+				if(sideXLength*sideYLength>maxChunkLoadingArea)
+					throw new LuaException("Error: area too big, max="+maxChunkLoadingArea);
 				
 				shape = new ChunksShapeRectangle(sideXLength, sideYLength);
 				loadChunks();
@@ -469,6 +481,11 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 				int west 	= ((Double)arguments[3]).intValue();
 				if(((Double)arguments[3])-west>0)//round up
 					west++;
+				
+				int maxChunkLoadingArea = ChunkyPeripherals.maxChunkLoadingRadius*ChunkyPeripherals.maxChunkLoadingRadius*4;
+				if((south+north)*(east+west)>maxChunkLoadingArea)
+					throw new LuaException("Error: area too big, max="+maxChunkLoadingArea);
+				
 				shape = new ChunksShapeRectangle(north, east, south, west);
 				loadChunks();
 			}
@@ -592,7 +609,10 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 		//	}
 		}
 		for(ChunkCoordIntPair chunk : chunks)
+		{
+			ChunkyPeripherals.infoLog("forcing chunk "+chunk);
 			ForgeChunkManager.forceChunk(ticket, chunk);
+		}
 	}
 	
 	/**
@@ -615,7 +635,10 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 		if(ticket!=null)
 		{
 			for(ChunkCoordIntPair chunk : chunks)
+			{
+				ChunkyPeripherals.infoLog("unforcing chunk "+chunk);
 				ForgeChunkManager.unforceChunk(ticket, chunk);
+			}
 		}
 	}
 	
@@ -653,8 +676,8 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 		{
 			var1.setByte("ChunksShapeName", (byte) 0);
 		}
-			
-		shape.writeToNBT(var1);
+		if(shape!=null)
+			shape.writeToNBT(var1);
 		super.writeToNBT(var1);
 	}
 
