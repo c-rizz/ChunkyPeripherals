@@ -1,5 +1,5 @@
 package crizz.chunkyperipherals.blocks;
-
+//p=peripheral.wrap("top")
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,15 +122,15 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 	private static class ChunksShapeRectangle implements IChunksShape
 	{
 		//these variables define the distances of the sides from the chunkloader 
-		private int left;
-		private int top;
-		private int right;
-		private int bottom;
+		private int west;
+		private int north;
+		private int east;
+		private int south;
 		
-		private static final String NBT_TAG_LEFT = "ChunksShapeRectangle_left";
-		private static final String NBT_TAG_TOP = "ChunksShapeRectangle_top";
-		private static final String NBT_TAG_RIGHT = "ChunksShapeRectangle_right";
-		private static final String NBT_TAG_BOTTOM = "ChunksShapeRectangle_bottom";
+		private static final String NBT_TAG_WEST = "ChunksShapeRectangle_west";
+		private static final String NBT_TAG_NORTH = "ChunksShapeRectangle_north";
+		private static final String NBT_TAG_EAST = "ChunksShapeRectangle_east";
+		private static final String NBT_TAG_SOUTH = "ChunksShapeRectangle_south";
 		
 		
 		public static byte id()
@@ -144,10 +144,10 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 		 */
 		public ChunksShapeRectangle(int sideLength)
 		{
-			left	=sideLength/2;
-			bottom	=sideLength/2;
-			top		=sideLength/2+ sideLength % 2;
-			right	=sideLength/2+ sideLength % 2;
+			west	=sideLength/2;
+			north	=sideLength/2;
+			south		=sideLength/2+ sideLength % 2;
+			east	=sideLength/2+ sideLength % 2;
 		}
 		
 		/**
@@ -155,69 +155,70 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 		 * @param sideXLength length of the sides parallel to the x axis
 		 * @param sideYLength length of the sides parallel to the y axis
 		 */
-		public ChunksShapeRectangle(int sideXLength, int sideYLength)
+		public ChunksShapeRectangle(int sideZLength, int sideXLength)
 		{
-			left	=sideXLength/2;
-			bottom	=sideYLength/2;
-			top		=sideXLength/2+ sideXLength % 2;
-			right	=sideYLength/2+ sideYLength % 2;
+			west	=sideXLength/2;
+			south	=sideZLength/2+ sideZLength % 2;
+			north	=sideZLength/2;
+			east	=sideXLength/2+ sideXLength % 2;
 		}
 
 		
 		/**
 		 * creates a rectangle
-		 * @param left distance of the left side from the chunkloader
-		 * @param top distance of the top side from the chunkloader
-		 * @param right distance of the right side from the chunkloader
-		 * @param bottom distance of the bottom side from the chunkloader
+		 * @param west distance of the west side from the chunkloader
+		 * @param north distance of the north side from the chunkloader
+		 * @param east distance of the east side from the chunkloader
+		 * @param south distance of the south side from the chunkloader
 		 */
-		public ChunksShapeRectangle(int left, int top, int right, int bottom)
+		public ChunksShapeRectangle(int north, int east, int south, int west)
 		{
-			this.left = left;
-			this.top = top;
-			this.right = right;
-			this.bottom = bottom;
+			this.west = west;
+			this.north = north;
+			this.east = east;
+			this.south = south;
 		}
 		
 		public ChunksShapeRectangle(NBTTagCompound nbt)
 		{
-			left	= nbt.getInteger(NBT_TAG_LEFT);
-			top		= nbt.getInteger(NBT_TAG_TOP);
-			right	= nbt.getInteger(NBT_TAG_RIGHT);
-			bottom	= nbt.getInteger(NBT_TAG_BOTTOM);
+			west	= nbt.getInteger(NBT_TAG_WEST);
+			north		= nbt.getInteger(NBT_TAG_NORTH);
+			east	= nbt.getInteger(NBT_TAG_EAST);
+			south	= nbt.getInteger(NBT_TAG_SOUTH);
 		}
 		
 		@Override
 		public List<ChunkCoordIntPair> getChunksToLoad(int xCoord, int zCoord)
 		{
-			//ChunkyPeripherals.infoLog("getChunksToLoad("+xCoord+","+zCoord+")");
-			List<ChunkCoordIntPair> ret = new ArrayList<ChunkCoordIntPair>(   ((int)(left+right)/16+1)*((int)(bottom+top)/16+1)   );
-			//ChunkyPeripherals.infoLog("left="+left+"  top="+top+"  right="+right+"  bottom="+bottom);
+			ChunkyPeripherals.infoLog("getChunksToLoad("+xCoord+","+zCoord+")");
+			List<ChunkCoordIntPair> ret = new ArrayList<ChunkCoordIntPair>(   ((int)(west+east)/16+1)*((int)(south+north)/16+1)   );
+			ChunkyPeripherals.infoLog("  north="+north+"  east="+east+"  south="+south+"west="+west);
 			
 			
-			int x0 = Coord2D.getChunkFromBlock_single(xCoord-(int)(left+1))*16;
-			int z0 = Coord2D.getChunkFromBlock_single(zCoord-(int)(bottom+1))*16;
-			int xf = Coord2D.getChunkFromBlock_single(xCoord+(int)(right+1))*16+16;
-			int zf = Coord2D.getChunkFromBlock_single(zCoord+(int)(top+1))*16+16;
+			//bottom left vertex
+			int z0 = Coord2D.getChunkFromBlock_single(zCoord-(int)(north+1))*16;
+			int x0 = Coord2D.getChunkFromBlock_single(xCoord-(int)(west+1))*16;
+			//top right vertex
+			int zf = Coord2D.getChunkFromBlock_single(zCoord+(int)(south+1))*16+16;
+			int xf = Coord2D.getChunkFromBlock_single(xCoord+(int)(east+1))*16+16;
 			
-			//ChunkyPeripherals.infoLog("x0="+x0+"  z0="+z0+"  xf="+xf+"  zf="+zf);
+			ChunkyPeripherals.infoLog("x0="+x0+"  z0="+z0+"  xf="+xf+"  zf="+zf);
 
-			
-			RectangleInt rect = new RectangleInt(xCoord - (int)(left+1), (int) (zCoord + (top+1)), (int) (xCoord + (right+1)), (int) (zCoord - (bottom+1)));
-			//ChunkyPeripherals.infoLog(rect.toString());
-			for(int x = x0; x<xf; x+=16)
+			RectangleInt rect = new RectangleInt(zCoord - (int)(north+1), (int) (xCoord + (east+1)), (int) (zCoord + (south+1)), (int) (xCoord - (west+1)));
+			ChunkyPeripherals.infoLog(rect.toString());
+			for(int x = x0; x<=xf; x+=16)
 			{
-				for(int z = z0; z<zf; z+=16)
+				for(int z = z0; z<=zf; z+=16)
 				{
-					//ChunkyPeripherals.infoLog("x="+x+"  z="+z);
-					if(rect.intersectsRect(x, z+15, x+15, z))
+					ChunkyPeripherals.infoLog("x="+x+"  z="+z);
+					if(rect.intersectsRect(z, x+15, z+15, x))
 					{
-						//ChunkyPeripherals.infoLog("adding");
+						ChunkyPeripherals.infoLog("adding");
 						ret.add(new ChunkCoordIntPair(x/16,z/16));
 					}
 					else
 					{
-						//ChunkyPeripherals.infoLog("not adding");
+						ChunkyPeripherals.infoLog("not adding");
 					}
 				}
 			}
@@ -228,22 +229,22 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 		@Override
 		public Object[] getDescription()
 		{
-			return new Object[]{"rectangle",left,top,right,bottom};
+			return new Object[]{"rectangle","north = "+north,"east  = "+east,"south = "+south,"west  = "+west};
 		}
 
 		@Override
 		public boolean isLoadingChunks()
 		{
-			return (left>0 || right>0) && (top>0 || bottom>0);
+			return (west>0 || east>0) && (north>0 || south>0);
 		}
 
 		@Override
 		public void writeToNBT(NBTTagCompound var1)
 		{
-			var1.setInteger(NBT_TAG_LEFT, left);
-			var1.setInteger(NBT_TAG_TOP, top);
-			var1.setInteger(NBT_TAG_RIGHT, right);
-			var1.setInteger(NBT_TAG_BOTTOM, bottom);
+			var1.setInteger(NBT_TAG_WEST, west);
+			var1.setInteger(NBT_TAG_NORTH, north);
+			var1.setInteger(NBT_TAG_EAST, east);
+			var1.setInteger(NBT_TAG_SOUTH, south);
 		}
 	}
 	
@@ -286,11 +287,17 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 	"      has to be positive. Non-integer values will \n" +
 	"      be rounded up to the next integer. If odd\n" +
 	"      will be rounded up to the next even number.";
+	public static final String HELP_SETSHAPERECTANGLE =
+	"three possible methods:\n" +
+	"setShapeRectangle(int sideLength)\n" +
+	"setShapeRectangle(int sideXLength, int sideZLength)\n" +
+	"setShapeRectangle(int north, int east,int south,\n" +
+	"                   int west)\n";
 	public static final String HELP_SETSHAPERECTANGLE1 =
 	"setShapeRectangle(int sideLength)\n" +
 	"    equivalent to setShapeSquare(int sideLength)";
 	public static final String HELP_SETSHAPERECTANGLE2 =
-	"setShapeRectangle(int sideXLength, int sideYLength)\n" +
+	"setShapeRectangle(int sideXLength, int sideZLength)\n" +
 	"    sets the shape to a rectangle of the defined\n" +
 	"    size centered on the peripheral. All arguments\n" +
 	"    have to be positive. Non-integer values will\n" +
@@ -302,23 +309,23 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 	"      sideYLength: length of the side aligned to\n" +
 	"        the Z axis.\n";
 	public static final String HELP_SETSHAPERECTANGLE4 =
-	"setShapeRectangle(int left, int top, int right, int bottom)\n" +
+	"setShapeRectangle(int north, int east, int south, int west)\n" +
 	"    sets the shape to a rectangle of the defined\n" +
 	"    size. The parameters define the distances of\n" +
 	"    the sides from the peripheral. All arguments\n" +
 	"    have to be positive. Non-integer values will\n" +
 	"    be rounded up to the next integer.\n" +
-	"    - left: direction of the decreasing x\n" +
-	"    - top: direction of the decreasing z\n" +
-	"    - right: direction of the increasing x\n" +
-	"    - bottom: direction of the increasing z\n" +
-	"    Also, the bottom direction is indicated by the\n" +
+	"    - north: direction of the decreasing z\n" +
+	"    - east: direction of the increasing x\n" +
+	"    - south: direction of the increasing z\n" +
+	"    - west: direction of the decreasing x\n" +
+	"    Also, the south direction is indicated by the\n" +
 	"    face with the red thing" +
 	"    Arguments:\n" +
-	"      left:   distance of the left side.\n"+
-	"      top:    distance of the top side.\n"+
-	"      right:  distance of the right side.\n"+
-	"      bottom: distance of the bottom side.";
+	"      north:    distance of the north side.\n"+
+	"      east:  distance of the east side.\n"+
+	"      south: distance of the south side.\n"+
+	"      west:   distance of the west side.\n";
 	public static final String HELP_GETCHUNKSNUMBER =
 	"getChunksNumber()"+
 	"    returns the number of chunks the peripheral is\n" +
@@ -450,19 +457,19 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 				if(((Double)arguments[0])<0 || ((Double)arguments[1])<0 || ((Double)arguments[2])<0 || ((Double)arguments[3])<0)
 					throw new LuaException("Error: arguments must be positive");
 				
-				int left		= ((Double)arguments[0]).intValue();
-				if(((Double)arguments[0])-left>0)//round up
-					left++;
-				int top		= ((Double)arguments[1]).intValue();
-				if(((Double)arguments[1])-top>0)//round up
-					top++;
-				int right 	= ((Double)arguments[2]).intValue();
-				if(((Double)arguments[2])-right>0)//round up
-					right++;
-				int bottom 	= ((Double)arguments[3]).intValue();
-				if(((Double)arguments[3])-bottom>0)//round up
-					bottom++;
-				shape = new ChunksShapeRectangle(left, top, right, bottom);
+				int north		= ((Double)arguments[0]).intValue();
+				if(((Double)arguments[0])-north>0)//round up
+					north++;
+				int east		= ((Double)arguments[1]).intValue();
+				if(((Double)arguments[1])-east>0)//round up
+					east++;
+				int south 	= ((Double)arguments[2]).intValue();
+				if(((Double)arguments[2])-south>0)//round up
+					south++;
+				int west 	= ((Double)arguments[3]).intValue();
+				if(((Double)arguments[3])-west>0)//round up
+					west++;
+				shape = new ChunksShapeRectangle(north, east, south, west);
 				loadChunks();
 			}
 			else
@@ -524,6 +531,8 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 					doc = HELP_SETSHAPERECTANGLE2;
 				else if(arguments.length-1==4)
 					doc = HELP_SETSHAPERECTANGLE4;
+				else if(arguments.length-1==0)
+					doc = HELP_SETSHAPERECTANGLE;
 			}
 			else if(method_name.compareTo("getChunksNumber")==0)
 			{
