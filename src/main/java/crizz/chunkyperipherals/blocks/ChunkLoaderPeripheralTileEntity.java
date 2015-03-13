@@ -305,9 +305,9 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 	"    be rounded up to the next even number\n" +
 	"    Arguments:\n" +
 	"      sideXLength: length of the side aligned to\n" +
-	"        the X axis.\n" +
+	"        the X axis (west-east).\n" +
 	"      sideYLength: length of the side aligned to\n" +
-	"        the Z axis.\n";
+	"        the Z axis (north-south).\n";
 	public static final String HELP_SETSHAPERECTANGLE4 =
 	"setShapeRectangle(int north, int east, int south, int west)\n" +
 	"    sets the shape to a rectangle of the defined\n" +
