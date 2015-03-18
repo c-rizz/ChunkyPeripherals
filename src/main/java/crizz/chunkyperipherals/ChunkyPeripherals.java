@@ -23,6 +23,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
@@ -42,7 +43,7 @@ import crizz.chunkyperipherals.utils.TicketManager;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 
-@Mod(modid=ChunkyPeripherals.MODID, name="Chunky Peripherals", version="1.1.1.0",dependencies="required-after:ComputerCraft")
+@Mod(modid=ChunkyPeripherals.MODID, name="Chunky Peripherals", version="1.1.1.1",dependencies="required-after:ComputerCraft")
 public class ChunkyPeripherals
 {
 		public static final String MODID = "chunkyperipherals";
@@ -130,6 +131,9 @@ public class ChunkyPeripherals
         	TicketManager.initialize();
         	int roudedMaxChunkLoadingRadius = maxChunkLoadingRadius % 16 == 0? maxChunkLoadingRadius : (maxChunkLoadingRadius + 16  - (maxChunkLoadingRadius%16));
         	ForgeChunkManager.addConfigProperty(instance, "maximumChunksPerTicket", Integer.toString(roudedMaxChunkLoadingRadius*roudedMaxChunkLoadingRadius*4/256), Property.Type.INTEGER);
+        	
+        	
+        	FMLInterModComms.sendMessage("OpenBlocks", "donateUrl", "https://pledgie.com/campaigns/28589");
         }
         
         
