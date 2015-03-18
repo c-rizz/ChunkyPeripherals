@@ -1,0 +1,67 @@
+getShape()
+   returns a string descripting the current shape.
+
+
+
+setShapeCircle(int radius)
+   sets the shape to a circle of the defined radius centered on the peripheral 
+  Arguments:
+     radius: radius of the circle, has to be positive. Non-integer values will be rounded up to the next integer
+
+
+
+setShapeSquare(int sideLength)
+   sets the shape to a square of the defined size centered on the peripheral. 
+  Arguments:
+     sideLength: length of the side of the square. has to be positive. Non-integer values will be rounded up to the next integer. If odd will be rounded up to the next even number.
+
+
+
+
+setShapeRectangle(int sideLength)
+   equivalent to setShapeSquare(int sideLength)
+
+
+
+
+setShapeRectangle(int sideXLength, int sideZLength)
+   sets the shape to a rectangle of the defined size centered on the peripheral. All arguments have to be positive. Non-integer values will be rounded up to the next integer. If odd will be rounded up to the next even number 
+  Arguments:
+     sideXLength: length of the side aligned to the X axis (west-east)
+     sideYLength: length of the side aligned to the Z axis (north-south)
+
+
+setShapeRectangle(int north, int east, int south, int west)
+   sets the shape to a rectangle of the defined size. The parameters define the distances of the sides from the peripheral. All arguments have to be positive. Non-integer values will be rounded up to the next integer.
+    - north: direction of the decreasing z
+    - east: direction of the increasing x
+    - south: direction of the increasing z
+    - west: direction of the decreasing x 
+   Also, the south direction is indicated by the face with the red thing 
+  Arguments:
+     north: distance of the north side.
+     east: distance of the east side.
+     south: distance of the south side.
+     west: distance of the west side.
+
+
+
+getChunksNumber()
+   returns the number of chunks the peripheral is keeping loaded.
+ 
+ 
+ 
+getChunksList()
+   returns a list of the chunks the peripheral is keeping loaded.
+ 
+
+
+disable()
+   disables the peripheral, it wont keep loaded any chunk. To re-enable it you have to set a new shape
+
+
+
+help(command_name, arg1type, arg2type, ...)
+   returns the documentation of the methods. 
+  Arguments:
+     command_name: string representing the name of the command. argNtype: string representing the type of the argument N.

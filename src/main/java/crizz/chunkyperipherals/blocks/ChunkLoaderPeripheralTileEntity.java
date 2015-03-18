@@ -327,7 +327,7 @@ public class ChunkLoaderPeripheralTileEntity extends TileEntity implements IPeri
 	"      south: distance of the south side.\n"+
 	"      west:   distance of the west side.\n";
 	public static final String HELP_GETCHUNKSNUMBER =
-	"getChunksNumber()"+
+	"getChunksNumber()\n"+
 	"    returns the number of chunks the peripheral is\n" +
 	"    keeping loaded.";
 	public static final String HELP_GETCHUNKSLIST = 
