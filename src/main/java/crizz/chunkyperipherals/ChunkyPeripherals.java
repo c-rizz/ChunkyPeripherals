@@ -39,40 +39,46 @@ import crizz.chunkyperipherals.upgrades.ChunkyModule.ChunkyModuleItem;
 import crizz.chunkyperipherals.upgrades.ChunkyModule.ChunkyUpgrade;
 import crizz.chunkyperipherals.upgrades.MinyChunkyModule.MinyChunkyItem;
 import crizz.chunkyperipherals.upgrades.MinyChunkyModule.MinyChunkyUpgrade;
+import crizz.chunkyperipherals.upgrades.WirelessChunkyModule.WirelessChunkyItem;
+import crizz.chunkyperipherals.upgrades.WirelessChunkyModule.WirelessChunkyUpgrade;
 import crizz.chunkyperipherals.utils.TicketManager;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 
-@Mod(modid=ChunkyPeripherals.MODID, name="Chunky Peripherals", version="1.1.1.1",dependencies="required-after:ComputerCraft")
+@Mod(modid=ChunkyPeripherals.MODID, name="Chunky Peripherals", version="1.1.2.0",dependencies="required-after:ComputerCraft")
 public class ChunkyPeripherals
 {
 		public static final String MODID = "chunkyperipherals";
 		public static Logger logger;
-		public static Configuration config;
 
 		
+		//ITEMS
+			public static ChunkyModuleItem 				chunkyModuleItem;
+			public static MinyChunkyItem 			 	minyChunkyModuleItem;
+			public static WirelessChunkyItem			wirelessChunkyModuleItem;
+			public static ChunkLoaderPeripheralBlock	chunkLoaderPeripheralBlock;
+			public static ChunkyDetectorItem			chunkyDetectorItem;
 		
-		public static ChunkyModuleItem 				 	chunkyModuleItem;
-		public static MinyChunkyItem 			 	minyChunkyModuleItem;
-		public static ChunkLoaderPeripheralBlock	chunkLoaderPeripheralBlock;
-		public static ChunkyDetectorItem			chunkyDetectorItem;
 		
-		
-		//public static CreativeTabs CCCreativeTab;
 		private static CreativeTabs creativeTab = CreativeTabs.tabMisc;
 		
-		private static boolean 	useAlsoAlternativeRecipes;		
-        public  static boolean 	activateInfoLogging;
-        
-        private static boolean useChunkyModule;
-        private static boolean useMinyChunkyModule;
-        private static boolean useChunkLoaderPeripheralBlock;
-        private static boolean useChunkyDetector;
-        
-        public static int chunkyModuleUpgradeID;
-        public static int minyChunkyModuleUpgradeID;
-        
-        public static int maxChunkLoadingRadius;
+		
+		
+		//	CONFIGURATIONS
+			private static boolean 	useAlsoAlternativeRecipes;		
+	        public  static boolean 	activateInfoLogging;
+	        
+	        private static boolean	useChunkyModule;
+	        private static boolean	useMinyChunkyModule;
+	        private static boolean	useWirelessChunkyModule;
+	        private static boolean	useChunkLoaderPeripheralBlock;
+	        private static boolean	useChunkyDetector;
+	        
+	        public static int		chunkyModuleUpgradeID;
+	        public static int		minyChunkyModuleUpgradeID;
+	        public static int		wirelessChunkyModuleUpgradeID;
+	        
+	        public static int 		maxChunkLoadingRadius;
         
         
         
@@ -93,29 +99,35 @@ public class ChunkyPeripherals
         public void preInit(FMLPreInitializationEvent event)
         {
         	logger = LogManager.getLogger("ChunkyPeripherals");
-        //	logger.setParent(FMLLog.getLogger());
 
     		logger.info("Loading CRMod...");
     		
-        	config = new Configuration(event.getSuggestedConfigurationFile());
-        	config.load();
-        	
+    		
+    		
+        	Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        	config.load();       	
         	
         	useAlsoAlternativeRecipes 		= config.get(Configuration.CATEGORY_GENERAL, "useAlsoAlternativeRecipes", 		false).getBoolean(false);
         	activateInfoLogging 			= config.get(Configuration.CATEGORY_GENERAL, "activateInfoLogging",				false).getBoolean(false);
+        	
         	useChunkyModule					= config.get(Configuration.CATEGORY_GENERAL, "useChunkyModule",					true).getBoolean(true);
         	useMinyChunkyModule				= config.get(Configuration.CATEGORY_GENERAL, "useMinyChunkyModule",				true).getBoolean(true);
+        	useWirelessChunkyModule			= config.get(Configuration.CATEGORY_GENERAL, "useWirelessChunkyModule",			true).getBoolean(true);
         	useChunkLoaderPeripheralBlock	= config.get(Configuration.CATEGORY_GENERAL, "useChunkLoaderPeripheralBlock",	true).getBoolean(true);
         	useChunkyDetector				= config.get(Configuration.CATEGORY_GENERAL, "useChunkyDetector",				true).getBoolean(true);
         	
         	
+        	chunkyModuleUpgradeID 			= config.get(Configuration.CATEGORY_GENERAL, "chunkyModuleUpgradeID", 260).getInt();//default Id 260
+        	minyChunkyModuleUpgradeID 		= config.get(Configuration.CATEGORY_GENERAL, "minyChunkyModuleUpgradeID", 261).getInt();//default Id 261
+        	wirelessChunkyModuleUpgradeID 	= config.get(Configuration.CATEGORY_GENERAL, "wirelessChunkyModuleUpgradeID", 262).getInt();//default Id 262
+        	maxChunkLoadingRadius			= config.get(Configuration.CATEGORY_GENERAL, "maxChunkLoadingRadiusInBlocks", 80).getInt();
+        	
+        	
+        	config.save();
+        	
         	
         	if(activateInfoLogging)
         		logger.info("activated info logging");
-        	
-        	chunkyModuleUpgradeID 			= config.get(Configuration.CATEGORY_GENERAL, "chunkyModuleUpgradeID", 260).getInt();//default Id 260
-        	minyChunkyModuleUpgradeID 		= config.get(Configuration.CATEGORY_GENERAL, "minyChunkyModuleUpgradeID", 261).getInt();//default Id 261
-        	maxChunkLoadingRadius			= config.get(Configuration.CATEGORY_GENERAL, "maxChunkLoadingRadiusInBlocks", 80).getInt();
         	
         	Side side = FMLCommonHandler.instance().getEffectiveSide();
         	if(side==Side.CLIENT)
@@ -123,14 +135,15 @@ public class ChunkyPeripherals
         		//registers the icons for the upgrades
         		MinecraftForge.EVENT_BUS.register(new ChunkyUpgrade());
         		MinecraftForge.EVENT_BUS.register(new MinyChunkyUpgrade());
+        		MinecraftForge.EVENT_BUS.register(new WirelessChunkyUpgrade());
         	}
         	
         	isServerStopping=false;
        // 	CCCreativeTab = findCCTab();
         	
         	TicketManager.initialize();
-        	int roudedMaxChunkLoadingRadius = maxChunkLoadingRadius % 16 == 0? maxChunkLoadingRadius : (maxChunkLoadingRadius + 16  - (maxChunkLoadingRadius%16));
-        	ForgeChunkManager.addConfigProperty(instance, "maximumChunksPerTicket", Integer.toString(roudedMaxChunkLoadingRadius*roudedMaxChunkLoadingRadius*4/256), Property.Type.INTEGER);
+        	int roundedMaxChunkLoadingRadius = maxChunkLoadingRadius % 16 == 0? maxChunkLoadingRadius : (maxChunkLoadingRadius + 16  - (maxChunkLoadingRadius%16));
+        	ForgeChunkManager.addConfigProperty(instance, "maximumChunksPerTicket", Integer.toString(roundedMaxChunkLoadingRadius*roundedMaxChunkLoadingRadius*4/256), Property.Type.INTEGER);
         	
         	
         	FMLInterModComms.sendMessage("OpenBlocks", "donateUrl", "https://pledgie.com/campaigns/28589");
@@ -158,7 +171,7 @@ public class ChunkyPeripherals
 	                chunkyModuleItem.loadRecipe();
 	                if(useAlsoAlternativeRecipes)
 	                	chunkyModuleItem.loadAlternativeRecipe();
-	                infoLog("registering chunkyModuleUpgrade");                
+	                infoLog("registering chunkyModuleUpgrade with ID "+chunkyModuleUpgradeID);                
 	                ComputerCraftAPI.registerTurtleUpgrade(new ChunkyUpgrade());
                 }
                 
@@ -166,8 +179,16 @@ public class ChunkyPeripherals
                 {
 	                minyChunkyModuleItem = new MinyChunkyItem();
 	                minyChunkyModuleItem.loadRecipe();
-	                infoLog("registering minyChunkyModuleUpgrade"); 
+	                infoLog("registering minyChunkyModuleUpgrade with ID "+minyChunkyModuleUpgradeID); 
 	                ComputerCraftAPI.registerTurtleUpgrade(new MinyChunkyUpgrade());
+                }
+                
+                if(useWirelessChunkyModule)
+                {
+	                wirelessChunkyModuleItem = new WirelessChunkyItem();
+	                wirelessChunkyModuleItem.loadRecipe();
+	                infoLog("registering wirelessChunkyModuleUpgrade with ID "+wirelessChunkyModuleUpgradeID); 
+	                ComputerCraftAPI.registerTurtleUpgrade(new WirelessChunkyUpgrade());
                 }
                 
                 if(useChunkLoaderPeripheralBlock)
@@ -189,12 +210,8 @@ public class ChunkyPeripherals
                 
                 
                 ChunkLoadingCallback.starterTicketsList 				= 	new ConcurrentHashMap<Object, Ticket>(2);//create the map (by defualt capacity is 2 (overworld and nether))
-                logger.info("CRMod.instance="+ChunkyPeripherals.instance);
+               // logger.info("CRMod.instance="+ChunkyPeripherals.instance);
                 ForgeChunkManager.setForcedChunkLoadingCallback(ChunkyPeripherals.instance, new ChunkLoadingCallback());
-                
-                
-                config.save();
-                config=null;
         }
        
         @EventHandler

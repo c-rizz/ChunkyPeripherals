@@ -1,0 +1,38 @@
+version 1.1.1.1 (computercraft 1.73, minecraft 1.7.10)
+	[OpenBlocks' donation station support]
+
+version 1.1.1.0 (computercraft 1.73, minecraft 1.7.10)
+	[Added the chunky peripheral block and the chunky detector]
+	
+version 1.1.0.9 (computercraft 1.65, minecraft 1.7.10)
+	[fixed tileEntity bug in MinyChunky.dig() and added MinyChunky.attack()]
+
+version 1.1.0.8 (computercraft 1.65, minecraft 1.7.10)
+	[a little fix]
+
+version 1.1.0.7 (computercraft 1.65, minecraft 1.7.10)
+	[updated to mincraft 1.7.10]
+	
+version 1.1.0.6 (computercraft 1.63, minecraft 1.6.4)
+	[fixed miny laggyness]
+
+version 1.1.0.5 (computercraft 1.63, minecraft 1.6.4)
+	[fixed pickaxe speed]
+
+version 1.1.0.4 (computercraft 1.63, minecraft 1.6.4)
+	[important bugfixes, /CRModToggleInfoLogging]
+
+version 1.1.0.3 (computercraft 1.63, minecraft 1.6.4)
+	[bugfix]
+
+version 1.1.0.2 (computercraft 1.63, minecraft 1.6.4)
+	[added the command CRModListLoadedChunks, bugfixes]
+
+version 1.1.0.0 (computercraft 1.63, minecraft 1.6.4)
+	[added the minyChunky module, fixed some bugs]
+
+version 1.0.1.6 (computercraft 1.63, minecraft 1.6.4)
+	[upgrade to computercraft 1.63]
+
+version 1.0.1.5b (computercraft 1.58, minecraft 1.6.4)
+	[first release]

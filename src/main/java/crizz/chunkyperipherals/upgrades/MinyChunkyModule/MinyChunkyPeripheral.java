@@ -114,6 +114,7 @@ public class MinyChunkyPeripheral extends ChunkyPeripheral implements IPeriphera
 	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context,int method, Object[] arguments) throws InterruptedException, LuaException
 	{
+		super.callMethod(computer, context, method, arguments);
 		method -= super.methodsNumber;
 		switch (method)
 		{

@@ -1,4 +1,5 @@
 item.TurtleChunkLoaderItem.name=Turtle Chunky Module
 item.MinyChunkyModuleItem.name=Turtle Miny Chunky Module
+item.WirelessChunkyModuleItem.name=Turtle Chunky Wireless Modem
 item.chunkyperipherals_ChunkyDetector.name=Chunky Detector
 tile.chunkyperipherals_ChunkLoaderPeripheralBlock.name=Chunky Peripheral
