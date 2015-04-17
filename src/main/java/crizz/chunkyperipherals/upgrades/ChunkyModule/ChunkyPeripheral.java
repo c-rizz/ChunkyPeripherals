@@ -29,7 +29,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
  */
 public class ChunkyPeripheral implements IPeripheral
 {
-	static public final int methodsNumber = 0;
+	static public final int methodsNumber = 1;
 	
 	private Ticket ticket;
 	protected ITurtleAccess turtle;
@@ -76,12 +76,16 @@ public class ChunkyPeripheral implements IPeripheral
 	@Override
 	public String[] getMethodNames()
 	{
-		return new String[0];
+		return new String[]{"isChunky"};
 	}
 
 	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws InterruptedException, LuaException
 	{
+		if(method==0)
+		{
+			return new Object[]{true};
+		}
 		return null;
 	}
 

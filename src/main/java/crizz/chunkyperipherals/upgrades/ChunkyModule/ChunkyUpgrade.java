@@ -86,7 +86,7 @@ public class ChunkyUpgrade implements ITurtleUpgrade
 	public void update(ITurtleAccess turtle, TurtleSide side)
 	{
 		//CRMod.infoLog("chunky.update(): getUpgrade="+turtle.getUpgrade(side));
-		if(FMLCommonHandler.instance().getEffectiveSide()==Side.CLIENT)//on Client getPeripheral doesn't work (CC1.63pr3)
+		if(turtle.getWorld().isRemote)//on Client getPeripheral doesn't work (CC1.63pr3)
 			return;
 		IPeripheral p = turtle.getPeripheral(side);
 		if( p instanceof ChunkyPeripheral)
