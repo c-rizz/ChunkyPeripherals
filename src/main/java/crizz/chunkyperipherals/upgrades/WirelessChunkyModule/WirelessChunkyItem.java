@@ -50,7 +50,7 @@ public class WirelessChunkyItem extends Item
 	
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par2List, boolean par4)
 	{
-		par2List.add("A wireless modem for turtles\nthat keeps the turtle loaded");
+		par2List.add("A chunky module with a modem");
 	}
 
 }

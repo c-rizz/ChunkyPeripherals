@@ -43,7 +43,7 @@ public class MinyChunkyItem extends Item
 	
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par2List, boolean par4)
 	{
-		par2List.add("Turtle module that keeps the chunk loaded and mines like a pickaxe");
+		par2List.add("A pickaxe for turtles that loads chunks");
 	}
 
 }

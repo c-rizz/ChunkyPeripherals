@@ -51,7 +51,7 @@ public class ChunkyDetectorItem extends Item
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par2List, boolean par4)
 	{
-		par2List.add("Tool to check if a block is kept loaded by ChunkyPeripherals");
+		par2List.add("Checks if a block is loaded by ChunkyPeripherals");
 	}
 	
 
