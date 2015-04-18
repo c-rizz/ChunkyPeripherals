@@ -12,6 +12,7 @@ import net.minecraft.util.IIcon;
 import cpw.mods.fml.common.registry.GameRegistry;
 import crizz.chunkyperipherals.CCReflectionHelper;
 import crizz.chunkyperipherals.ChunkyPeripherals;
+import dan200.computercraft.api.turtle.ITurtleUpgrade;
 
 public class WirelessChunkyItem extends Item
 {
@@ -33,12 +34,12 @@ public class WirelessChunkyItem extends Item
 	public void loadRecipe()
 	{
 		
-		Object wirelessUpgrade = CCReflectionHelper.runMainCCClassMethod("getTurtleUpgrade", 1);
+		ITurtleUpgrade wirelessUpgrade = (ITurtleUpgrade) CCReflectionHelper.runMainCCClassMethod("getTurtleUpgrade", 1);
 		GameRegistry.addShapelessRecipe(new ItemStack(ChunkyPeripherals.wirelessChunkyModuleItem),
 										new Object[]
 										{ 
 											new ItemStack(ChunkyPeripherals.chunkyModuleItem),
-											CCReflectionHelper.invokeMethod(wirelessUpgrade,true, "getCraftingItem")
+											wirelessUpgrade.getCraftingItem()
 										});
 	}
 	

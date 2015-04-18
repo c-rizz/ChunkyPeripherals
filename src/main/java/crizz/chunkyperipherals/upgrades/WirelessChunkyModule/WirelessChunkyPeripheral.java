@@ -11,6 +11,7 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.ITurtleAccess;
+import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.api.turtle.TurtleSide;
 
 public class WirelessChunkyPeripheral extends ChunkyPeripheral implements IPeripheral
@@ -24,16 +25,9 @@ public class WirelessChunkyPeripheral extends ChunkyPeripheral implements IPerip
 		super(t);
 		
 		Class wirelessModemClass = null;
-		Object turtleModemObject = CCReflectionHelper.runMainCCClassMethod("getTurtleUpgrade", 1);
-		wirelessModemSubPeripheral = (IPeripheral) CCReflectionHelper.invokeMethod(	turtleModemObject,
-																					true,
-																					"createPeripheral",
-																					new Class<?>[]{
-																						ITurtleAccess.class,
-																						TurtleSide.class
-																					},
-																					t,
-																					side);
+		ITurtleUpgrade turtleModemObject = (ITurtleUpgrade) CCReflectionHelper.runMainCCClassMethod("getTurtleUpgrade", 1);
+		wirelessModemSubPeripheral = turtleModemObject.createPeripheral(t,side);
+		
 		methodsNumber = wirelessModemSubPeripheral.getMethodNames().length;
 		
 	}
