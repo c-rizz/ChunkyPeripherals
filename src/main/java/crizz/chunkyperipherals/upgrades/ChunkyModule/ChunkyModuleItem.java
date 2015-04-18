@@ -68,6 +68,6 @@ public class ChunkyModuleItem extends Item
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par2List, boolean par4)
 	{
-		par2List.add("Turtle module that keeps the chunk loaded");
+		par2List.add("Turtle module to keep the chunk loaded");
 	}
 }
