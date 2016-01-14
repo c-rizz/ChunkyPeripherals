@@ -8,5 +8,4 @@ Official thread: http://www.computercraft.info/forums2/index.php?/topic/18156-mc
 License: MIT License
 
 
-###DONATIONS
-<a href='https://pledgie.com/campaigns/28589'><img alt='Click here to lend your support to: Chunky Peripherals and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28589.png?skin_name=chrome' border='0' ></a>
+
